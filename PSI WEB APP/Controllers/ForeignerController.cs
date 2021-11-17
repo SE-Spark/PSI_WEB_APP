@@ -15,6 +15,10 @@ namespace PSI_WEB_APP.Controllers
         {
             return View(unit.ForeignerRepository.get());
         }
+        public ActionResult GetData()
+        {
+            return Json(new { data = unit.ForeignerRepository.get() });
+        }
         public ActionResult Create()
         {
             return View();

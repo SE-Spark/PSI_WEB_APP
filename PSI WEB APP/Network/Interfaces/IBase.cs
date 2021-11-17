@@ -9,9 +9,9 @@ namespace PSI_WEB_APP.Network.Interfaces
     {
         List<TEntity> get();
         TEntity get(Object id);
-        void insert(TEntity T);
-        void update(TEntity T);
-        void delete(TEntity T);
-        void delete(Object id);
+        int insert(TEntity T);
+        int update(Guid Id,TEntity T);
+        int delete(TEntity T);
+        int delete(Object id);
     }
 }

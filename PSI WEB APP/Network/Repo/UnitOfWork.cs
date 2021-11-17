@@ -1,4 +1,5 @@
 ﻿using PSI_WEB_APP.Models;
+using PSI_WEB_APP.Network.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace PSI_WEB_APP.Network.Repo
 {
     public class UnitOfWork
     {
-        private BaseRepository<Citizen> citizenRepository;
+        private BaseRepository<CitizenDto> citizenRepository;
         private BaseRepository<Criminal> criminalRepository;
         private BaseRepository<Foreigner> courseRepository;
         private BaseRepository<Login> loginRepository;
@@ -17,13 +18,13 @@ namespace PSI_WEB_APP.Network.Repo
         private BaseRepository<Suspect> suspectRepository;
         private BaseRepository<Work> workRepository;
 
-        public BaseRepository<Citizen> CitizenRepository
+        public BaseRepository<CitizenDto> CitizenRepository
         {
             get
             {
                 if (this.citizenRepository == null)
                 {
-                    this.citizenRepository =new BaseRepository<Citizen>(Constants.URL_CITIZEN);
+                    this.citizenRepository =new BaseRepository<CitizenDto>(Constants.URL_CITIZEN);
                 }
                 return citizenRepository;
             }

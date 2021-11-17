@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table id="Officertb" class="table">
     <thead>
         <tr>
             <th>
@@ -33,33 +33,32 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NationalID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WorkId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateEmployed)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
 </table>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#Officertb").DataTable({
+                "ajax": {
+                    "url": "/Officer/GetData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "FirstName" },
+                    { "data": "LastName" },
+                    { "data": "NationalID" },
+                    { "data": "PostId" },
+                    { "data": "WorkId" },
+                    { "data": "DateEmployed" }
+                ],
+                "language": {
+                    "emptyTable": "No data Found, Please click on <b> Add New </b> Button"
+                }
+
+
+            });
+
+        });
+
+    </script>
+}

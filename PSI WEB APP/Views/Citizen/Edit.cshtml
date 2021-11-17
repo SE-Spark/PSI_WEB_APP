@@ -57,7 +57,9 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+<link href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet"/>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 }

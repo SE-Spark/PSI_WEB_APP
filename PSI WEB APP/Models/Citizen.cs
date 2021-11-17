@@ -7,7 +7,7 @@ namespace PSI_WEB_APP.Models
 {
     public class Citizen
     {
-        public Guid Id { get; set; }
+        public String Id { get; set; }
         [Required(ErrorMessage ="Firstname is required")]
         [DataType(DataType.Text)]
         [Display(Name ="First Name")]
@@ -38,7 +38,7 @@ namespace PSI_WEB_APP.Models
         public String Ward { get; set; }
 
         [DataType(DataType.Text)]
-        [Display(Name = "First Name")]
+        [Display(Name = "County")]
         [Required(ErrorMessage = "County is required")]
         public String County { get; set; }
     }

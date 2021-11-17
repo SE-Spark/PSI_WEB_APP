@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PSI_WEB_APP.Models;
+using PSI_WEB_APP.Network.Mappers;
 using PSI_WEB_APP.Network.Repo;
 
 namespace PSI_WEB_APP.Controllers
@@ -12,89 +13,65 @@ namespace PSI_WEB_APP.Controllers
     public class CitizenController : Controller
     {
         private UnitOfWork unit = new UnitOfWork();
-        
+
         // GET: Citizen
         public ActionResult Index()
         {
+            return View();
+        }
+        public ActionResult GetData()
+        {
             var data = unit.CitizenRepository.get();
-            return View(data);
+            CitizenMapper mapper = new CitizenMapper();
+            var citizens=mapper.MapToDomainList(data);
+            return Json(new { data = citizens });
         }
-
-        // GET: Citizen/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public ActionResult AddorEdit(String id)
         {
-            return View();
+            if (String.IsNullOrEmpty(id))
+            {
+                return View(new Citizen());
+            }
+            else
+            {
+                var data = unit.CitizenRepository.get(Guid.Parse(id));
+                CitizenMapper mapper = new CitizenMapper();
+                var citizen = mapper.MapToDomain(data);
+                return View(citizen);
+            }
         }
-
-        // GET: Citizen/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Citizen/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult AddorEdit(Citizen ct)
         {
-            try
+            CitizenMapper mapper = new CitizenMapper();
+            var input = mapper.MapToDto(ct);
+            if (input.Id == Guid.Parse("00000000-0000-0000-0000-000000000000"))
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                //insert
+                var output= unit.CitizenRepository.insert(input);
+                if(output==1)
+                    return Json(new { success = true, message = "Added Successfully" }, new Newtonsoft.Json.JsonSerializerSettings());
+                return Json(new { success = false, message = "process failed" },new Newtonsoft.Json.JsonSerializerSettings());
             }
-            catch
+            else
             {
-                return View();
+                //update
+                var output = unit.CitizenRepository.update(input.Id,input);
+                if (output == 1)
+                    return Json(new { success = true, message = "Updated Successfully" }, new Newtonsoft.Json.JsonSerializerSettings());
+                return Json(new { success = false, message = "process failed" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
-        }
 
-        // GET: Citizen/Edit/5
-        public ActionResult Edit(Guid id)
-        {
-            var item = unit.CitizenRepository.get(id);
-            return View(item);
         }
-
-        // POST: Citizen/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Citizen ct)
+        public ActionResult Delete(String id)
         {
-            try
-            {
-                unit.CitizenRepository.update(ct);
-
-                
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            unit.CitizenRepository.delete(Guid.Parse(id));
+            return Json(new { success = true, message = "Deleted Successfully" }, new Newtonsoft.Json.JsonSerializerSettings());
         }
-
-        // GET: Citizen/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
+     
         // POST: Citizen/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }

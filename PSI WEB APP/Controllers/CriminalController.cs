@@ -16,6 +16,10 @@ namespace PSI_WEB_APP.Controllers
         {
             return View(unit.CriminalRepository.get());
         }
+        public ActionResult GetData()
+        {
+            return Json(new { data = unit.CriminalRepository.get() });
+        }
         public IActionResult Create()
         {
             return View();

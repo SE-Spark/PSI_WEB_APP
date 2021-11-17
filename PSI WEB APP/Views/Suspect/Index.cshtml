@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table id="Suspecttb" class="table">
     <thead>
         <tr>
             <th>
@@ -30,30 +30,31 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NationalID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PassPortNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Allegation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AllegationDate)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
 </table>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#Suspecttb").DataTable({
+                "ajax": {
+                    "url": "/Suspect/GetData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "NationalID" },
+                    { "data": "PassPortNo" },
+                    { "data": "Allegation" },
+                    { "data": "Description" },
+                    { "data": "AllegationDate" }
+                ],
+                "language": {
+                    "emptyTable": "No data Found, Please click on <b> Add New </b> Button"
+                }
+
+
+            });
+
+        });
+
+    </script>
+}

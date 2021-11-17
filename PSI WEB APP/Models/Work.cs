@@ -7,6 +7,7 @@ namespace PSI_WEB_APP.Models
 {
     public class Work
     {
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "Name is required")]
         [DataType(DataType.Text)]
         [Display(Name = "Name")]

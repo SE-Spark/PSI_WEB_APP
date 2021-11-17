@@ -15,6 +15,11 @@ namespace PSI_WEB_APP.Controllers
         {
             return View(unit.SuspectRepository.get());
         }
+
+        public ActionResult GetData()
+        {
+            return Json(new { data = unit.SuspectRepository.get() });
+        }
         public IActionResult Create()
         {
             return View();
